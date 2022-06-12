@@ -13,9 +13,13 @@ const getLatestId = (obj_students) => {
 // Get all student 
 const getAllStudents = (req, res) => {
 
-    (obj_students.length > 0) ? res.status(200).json(obj_data) : res.status(200).json({
-        message : 'data not found'
-    });
+    if(obj_students.length > 0){
+        res.status(200).json(obj_students);
+    }else{
+        res.status(200).json({
+            message : 'data not found'
+        })
+    }
 }
 
 // Get all student 
@@ -54,24 +58,31 @@ const getDeleteStudents = (req, res) => {
 // Students Edit
 const StudentsEdit = (req, res) => {
 
-    let id = req.params.id;
-    let index = obj_students.findIndex(data => data.id == id);
+    if( req.body.name == '' || req.body.location == '' || req.body.skill == '' ){
+        res.status(200).json({
+            message : 'all feilds are required !'
+        });
+    }else{
 
-    obj_students[index] = {
-        id : id,
-        name : req.body.name,
-        skill : req.body.skill,
-        location : req.body.location
+        let id = req.params.id;
+        let index = obj_students.findIndex(data => data.id == id);
+    
+        obj_students[index] = {
+            id : id,
+            name : req.body.name,
+            skill : req.body.skill,
+            location : req.body.location
+        }
+    
+        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
+    
+        res.status(200).json({
+            message : 'data updated'
+        });
+
     }
 
-    fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
 
-    console.log();
-
-
-    res.status(200).json({
-        message : 'data created'
-    });
 
 }
 
