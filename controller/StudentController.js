@@ -34,7 +34,21 @@ const getSingleStudents = (req, res) => {
 
 // Get all student 
 const getDeleteStudents = (req, res) => {
-    res.send('Delete Route Done ' + req.params.id);
+
+    let id = req.params.id;
+    if(obj_students.some(data => data.id == id)){
+        let update_data = obj_students.filter(data => data.id != id);
+
+        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(update_data))
+
+        res.status(200).json({
+            message : 'data found'
+        });
+    }else{
+        res.status(200).json({
+            message : 'data not found'
+        });
+    }
 }
 
 // Get all student 
@@ -60,6 +74,11 @@ const createStudents = (req, res) => {
         });
     
         fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
+
+
+        res.status(200).json({
+            message : 'data created'
+        });
 
     }
 
