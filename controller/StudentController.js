@@ -7,7 +7,7 @@ const obj_students = JSON.parse(students);
 
 // latest id 
 const getLatestId = (obj_students) => {
-    return obj_students[obj_students.length - 1].id + 1;
+    return (obj_students == '') ? 1 : obj_students[obj_students.length - 1].id + 1;
 }
 
 // Get all student 
