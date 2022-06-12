@@ -12,12 +12,24 @@ const getLatestId = (obj_students) => {
 
 // Get all student 
 const getAllStudents = (req, res) => {
-    res.status(200).json(obj_data);
+
+    (obj_students.length > 0) ? res.status(200).json(obj_data) : res.status(200).json({
+        message : 'data not found'
+    });
 }
 
 // Get all student 
 const getSingleStudents = (req, res) => {
-    res.send('Single Student Route Done ' + req.param.id);
+    let id = req.params.id;
+
+    if(obj_students.some(data => data.id == id)){
+        let single = obj_students.find(data => data.id == id);
+        res.status(200).json(single);
+    }else{
+        res.status(200).json({
+            message : 'data not found'
+        });
+    }
 }
 
 // Get all student 
@@ -33,18 +45,24 @@ const getPutStudents = (req, res) => {
 // Get all student 
 const createStudents = (req, res) => {
 
-    obj_students.push({
-        id      : getLatestId(obj_students) ,
-        name    : req.body.name,
-        skill   : req.body.skill,
-        location: req.body.location 
-    });
 
-    fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
+    if( req.body.name == '' || req.body.location == '' || req.body.skill == '' ){
+        res.status(200).json({
+            message : 'all feilds are required !'
+        });
+    }else{
 
-    res.status(200).json({
-        message : 'student created successfully'
-    });
+        obj_students.push({
+            id      : getLatestId(obj_students) ,
+            name    : req.body.name,
+            skill   : req.body.skill,
+            location: req.body.location 
+        });
+    
+        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
+
+    }
+
 }
 
 
