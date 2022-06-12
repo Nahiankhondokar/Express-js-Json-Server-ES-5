@@ -6,6 +6,10 @@ const dotenv = require('dotenv').config();
 // environment 
 const PORT = process.env.SERVER_PORT;
 
+// Request body init
+app.use(express.json());
+app.use(express.urlencoded({ extended : false }));
+
 // student route connection
 app.use('/api/students', require('./routes/student'));
 
