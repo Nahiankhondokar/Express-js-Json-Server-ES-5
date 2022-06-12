@@ -51,12 +51,31 @@ const getDeleteStudents = (req, res) => {
     }
 }
 
-// Get all student 
-const getPutStudents = (req, res) => {
-    res.send('Put Route Done');
+// Students Edit
+const StudentsEdit = (req, res) => {
+
+    let id = req.params.id;
+    let index = obj_students.findIndex(data => data.id == id);
+
+    obj_students[index] = {
+        id : id,
+        name : req.body.name,
+        skill : req.body.skill,
+        location : req.body.location
+    }
+
+    fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
+
+    console.log();
+
+
+    res.status(200).json({
+        message : 'data created'
+    });
+
 }
 
-// Get all student 
+// create Students
 const createStudents = (req, res) => {
 
 
@@ -89,7 +108,7 @@ const createStudents = (req, res) => {
 module.exports = {
     getAllStudents, 
     createStudents,
-    getPutStudents, 
+    StudentsEdit, 
     getDeleteStudents,
     getSingleStudents
 }
