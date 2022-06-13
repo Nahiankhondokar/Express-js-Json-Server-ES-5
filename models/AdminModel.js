@@ -14,8 +14,6 @@ const adminModel = mongoose.Schema({
     cell : {
         type : String,
         required : [true, "cell Feild is required"],
-        unique : true,
-        match : /^(01|8801|+8801)[0-9]{9}$/,
         unique : true
     },
     username : {
@@ -36,6 +34,8 @@ const adminModel = mongoose.Schema({
     password : {
         type : String
     }
+}, {
+    timestamps : true
 });
 
 
