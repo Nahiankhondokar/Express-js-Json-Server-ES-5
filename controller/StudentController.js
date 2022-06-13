@@ -20,17 +20,13 @@ const getAllStudents = async (req, res) => {
 }
 
 // Get all student 
-const getSingleStudents = (req, res) => {
+const getSingleStudents = async (req, res) => {
     let id = req.params.id;
 
-    if(obj_students.some(data => data.id == id)){
-        let single = obj_students.find(data => data.id == id);
-        res.status(200).json(single);
-    }else{
-        res.status(200).json({
-            message : 'data not found'
-        });
-    }
+    let single = await Student.findById(id);
+    res.status(200).json(single);
+
+
 }
 
 // Get all student 
@@ -84,7 +80,7 @@ const StudentsEdit = (req, res) => {
 }
 
 // create Students
-const createStudents = (req, res) => {
+const createStudents = async (req, res) => {
 
 
     if( req.body.name == '' || req.body.location == '' || req.body.skill == '' ){
@@ -93,7 +89,7 @@ const createStudents = (req, res) => {
         });
     }else{
 
-        Student.create({
+        await Student.create({
             name : req.body.name,
             skill : req.body.skill,
             location : req.body.location,
