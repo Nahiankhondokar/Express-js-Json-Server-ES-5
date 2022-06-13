@@ -19,7 +19,7 @@ const getAllStudents = async (req, res) => {
 
 }
 
-// Get all student 
+// Get single student 
 const getSingleStudents = async (req, res) => {
     let id = req.params.id;
 
@@ -29,53 +29,29 @@ const getSingleStudents = async (req, res) => {
 
 }
 
-// Get all student 
-const getDeleteStudents = (req, res) => {
+// Get delete student 
+const getDeleteStudents = async (req, res) => {
 
     let id = req.params.id;
-    if(obj_students.some(data => data.id == id)){
-        let update_data = obj_students.filter(data => data.id != id);
+    await Student.findByIdAndDelete(id);
 
-        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(update_data))
+    res.status(200).json({
+        message : 'student deleted'
+    });
 
-        res.status(200).json({
-            message : 'data found'
-        });
-    }else{
-        res.status(200).json({
-            message : 'data not found'
-        });
-    }
 }
 
 // Students Edit
-const StudentsEdit = (req, res) => {
+const StudentsEdit = async (req, res) => {
 
-    if( req.body.name == '' || req.body.location == '' || req.body.skill == '' ){
-        res.status(200).json({
-            message : 'all feilds are required !'
-        });
-    }else{
+    let id = req.params.id;
+    await Student.findByIdAndUpdate(id, req.body, {
+        new : true
+    });
 
-        let id = req.params.id;
-        let index = obj_students.findIndex(data => data.id == id);
-    
-        obj_students[index] = {
-            id : id,
-            name : req.body.name,
-            skill : req.body.skill,
-            location : req.body.location
-        }
-    
-        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
-    
-        res.status(200).json({
-            message : 'data updated'
-        });
-
-    }
-
-
+    res.status(200).json({
+        message : 'student updated'
+    });
 
 }
 
