@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const Student = require('../models/studentModel');
 
 // students data 
 const students = fs.readFileSync(path.join(__dirname, '../.data/students.json'));
@@ -11,15 +12,11 @@ const getLatestId = (obj_students) => {
 }
 
 // Get all student 
-const getAllStudents = (req, res) => {
+const getAllStudents = async (req, res) => {
 
-    if(obj_students.length > 0){
-        res.status(200).json(obj_students);
-    }else{
-        res.status(200).json({
-            message : 'data not found'
-        })
-    }
+    let data = await Student.find();
+    res.status(200).json(data);
+
 }
 
 // Get all student 
