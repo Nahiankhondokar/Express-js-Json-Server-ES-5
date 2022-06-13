@@ -93,18 +93,15 @@ const createStudents = (req, res) => {
         });
     }else{
 
-        obj_students.push({
-            id      : getLatestId(obj_students) ,
-            name    : req.body.name,
-            skill   : req.body.skill,
-            location: req.body.location 
+        Student.create({
+            name : req.body.name,
+            skill : req.body.skill,
+            location : req.body.location,
+            age  : req.body.age
         });
-    
-        fs.writeFileSync(path.join(__dirname, '../.data/students.json'), JSON.stringify(obj_students));
-
 
         res.status(200).json({
-            message : 'data created'
+            message : 'Student Created successfully '
         });
 
     }
