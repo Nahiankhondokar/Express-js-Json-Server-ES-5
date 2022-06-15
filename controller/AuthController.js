@@ -1,5 +1,6 @@
 const AdminModel = require("../models/AdminModel");
 const bcryptjs = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 
 // admin Controller
@@ -20,8 +21,16 @@ const adminLogin = async (req, res) => {
                 message : 'password not match'
             });
         }else{
+
+
+            let token = jwt.sign({ id : login_data._id }, process.env.JWT_SECRET, {
+                expiresIn : '1d'
+            });
+
+
             res.status(200).json({
-                message : 'Admin login Successfully'
+                name : login_data.name, 
+                token : token
             });
         }
     }

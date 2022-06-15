@@ -100,6 +100,16 @@ const getDeleteAdmins = async (req, res) => {
 }
 
 
+// GEt Single Admins
+const adminProfile = async (req, res) => {
+    res.status(200).json(req.user);
+}
+
+// GEt Single Admins
+const adminHome = async (req, res) => {
+    res.status(200).json(req.user);
+}
+
 
 
 module.exports = {
@@ -107,5 +117,7 @@ module.exports = {
     getSingleAdmins,
     getCreateAdmins,
     getUpdateAdmins,
-    getDeleteAdmins
+    getDeleteAdmins,
+    adminHome,
+    adminProfile
 }
