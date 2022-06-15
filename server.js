@@ -1,12 +1,12 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv').config();
-const connectMongoDB = require('./config/db');
 const colors = require('colors');
+const mongoDBConnection = require('./config/db');
 
+// mongdoDB Connection
+mongoDBConnection();
 
-// mongoose connection
-connectMongoDB();
 
 // environment 
 const PORT = process.env.SERVER_PORT;
@@ -20,6 +20,9 @@ app.use('/api/students', require('./routes/student'));
 
 // Admiin Route Connection
 app.use('/api/admins', require('./routes/admin'));
+
+// Teacher Route Connection
+app.use('/api/teachers', require('./routes/teacher'));
 
 
 app.listen(PORT, () => console.log(`Server is running on post ${PORT}`.bgGreen.white));
