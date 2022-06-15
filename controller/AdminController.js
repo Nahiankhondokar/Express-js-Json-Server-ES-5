@@ -1,4 +1,5 @@
 const Admin = require('../models/AdminModel');
+const bcryptjs = require('bcryptjs');
 
 
 // GEt all Admins
@@ -13,9 +14,8 @@ const getAllAdmins = async (req, res) => {
 // GEt Single Admins
 const getSingleAdmins = async (req, res) => {
 
-    let id = req.body.id;
+    let id = req.params.id;
     let single =  await Admin.findById(id);
-
     res.status(200).json(single);
 }
 
@@ -24,20 +24,29 @@ const getSingleAdmins = async (req, res) => {
 const getCreateAdmins = async (req, res) => {
 
     const { name, email, cell, location, skill, username, password } = req.body;
-    await Admin.create({
-        name : name,
-        email : email,
-        cell : cell,
-        location : location,
-        skill : skill,
-        username : username,
-        password : password
 
-    });
+    // password hash
+    const salt = await bcryptjs.genSalt(10);
+    const has_pass = await bcryptjs.hash(password, salt);
 
-    res.status(200).json({
-        message : 'created admin'
-    });
+    // validation 
+    if(!name || !email || !cell || !location || !skill || !username || !password){
+        res.status(200).json({
+            message : 'All feilds are required'
+        });
+    }else{
+        // Admin create
+        await Admin.create({
+            ...req.body,
+            password : has_pass
+        });
+
+        res.status(200).json({
+            message : 'created admin'
+        });
+    }
+
+
 }
 
 
@@ -50,10 +59,21 @@ const getUpdateAdmins = (req, res) => {
 
 
 // GEt Delete Admins
-const getDeleteAdmins = (req, res) => {
-    res.status(200).json({
-        message : 'all admin'
-    });
+const getDeleteAdmins = async (req, res) => {
+
+    let id = req.params.id;
+    const del_data = await Admin.findById(id);
+    if(del_data){
+        let data = await Admin.findByIdAndDelete(id);
+        res.status(200).json({
+            message : `Deleted ${data.name}'s all data`
+        });
+    }else{
+        res.status(404).json({
+            message : 'data not found'
+        });
+    }
+
 }
 
 
