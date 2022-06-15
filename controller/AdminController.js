@@ -51,10 +51,33 @@ const getCreateAdmins = async (req, res) => {
 
 
 // GEt Update Admins
-const getUpdateAdmins = (req, res) => {
-    res.status(200).json({
-        message : 'all admin'
-    });
+const getUpdateAdmins = async (req, res) => {
+
+    let id = req.params.id;
+    const { name, email, cell, location, skill, username, password } = req.body;
+
+    // password hash
+    const salt = await bcryptjs.genSalt(10);
+    const has_pass = await bcryptjs.hash(password, salt);
+
+    // validation 
+    if(!name || !email || !cell || !location || !skill || !username || !password){
+        res.status(400).json({
+            message : 'All feilds are required'
+        });
+    }else{
+        let data = await Admin.findByIdAndUpdate(id, {
+            ... req.body,
+            password : has_pass
+        }, {
+            new : true
+        });
+
+        res.status(200).json({
+            message : `${data.name}'s data updated Successfully`
+        });
+    }
+
 }
 
 
