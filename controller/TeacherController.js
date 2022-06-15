@@ -88,14 +88,6 @@ const updateTeacher = async (req, res) => {
 
 
 
-// Authetication
-const teacherLogin = (req, res) => {
-
-
-
-}
-
-
 
 
 module.exports = {
