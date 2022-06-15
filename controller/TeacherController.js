@@ -1,4 +1,5 @@
 const TeacherModel = require("../models/TeacherModel");
+const bcryptjs = require('bcryptjs');
 
 // all data
 const getAllTeacher = async (req, res) => {
@@ -19,10 +20,13 @@ const createTeacher = async (req, res) => {
         });
     }else{
 
+        const salt = await bcryptjs.genSalt(10);
+        const has_pass = await bcryptjs.hash(password, salt);
+
         await TeacherModel.create({
             name : name,
             email : email,
-            password : password
+            password : has_pass
         });
 
         res.status(200).json({
@@ -65,7 +69,14 @@ const updateTeacher = async (req, res) => {
             message : "required feilds"
         });
     }else{
-        await TeacherModel.findByIdAndUpdate(id, req.body, {
+
+        const salt = await bcryptjs.genSalt(10);
+        const has_pass = await bcryptjs.hash(password, salt);
+
+        await TeacherModel.findByIdAndUpdate(id,{
+            ...req.body,
+            password : has_pass
+        }, {
             new : true
         });
     
@@ -75,6 +86,14 @@ const updateTeacher = async (req, res) => {
     }
 }
 
+
+
+// Authetication
+const teacherLogin = (req, res) => {
+
+
+
+}
 
 
 

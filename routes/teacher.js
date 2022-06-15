@@ -3,6 +3,9 @@ const { updateTeacher, deleteTeacher, singleTeacher, createTeacher, getAllTeache
 const router = express.Router();
 
 
+// Authentication routes
+router.post('/login', teacherLogin);
+
 // Teacher All router 
 router.get('/', getAllTeacher);
 router.post('/', createTeacher);
