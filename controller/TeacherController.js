@@ -1,12 +1,13 @@
 const TeacherModel = require("../models/TeacherModel");
 const bcryptjs = require('bcryptjs');
+const asyncHandler = require('express-async-handler');
 
 // all data
-const getAllTeacher = async (req, res) => {
+const getAllTeacher = asyncHandler(async (req, res) => {
 
     let all_data = await TeacherModel.find();
     res.status(200).json(all_data);
-}
+});
 
 
 // create data
