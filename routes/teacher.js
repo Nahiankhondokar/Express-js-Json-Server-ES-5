@@ -1,13 +1,14 @@
 const express = require('express');
 const teacherLogin = require('../controller/TeacherAuthController');
-const { updateTeacher, deleteTeacher, singleTeacher, createTeacher, getAllTeacher } = require('../controller/TeacherController');
+const { updateTeacher, deleteTeacher, singleTeacher, createTeacher, getAllTeacher, teacherProfile, teacherHome } = require('../controller/TeacherController');
+const { teacherAuthCheck } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 
 // Authentication routes
 router.post('/login', teacherLogin);
-router.get('/profile', teacherProfile);
-router.get('/home', teacherHome);
+router.get('/profile', teacherAuthCheck, teacherProfile);
+router.get('/home', teacherAuthCheck, teacherHome);
 
 // Teacher All router 
 router.get('/', getAllTeacher);

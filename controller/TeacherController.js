@@ -87,6 +87,18 @@ const updateTeacher = async (req, res) => {
 }
 
 
+// profile page
+const teacherProfile = (req, res) => {
+
+    res.status(200).json(req.user);
+}
+
+
+// home page
+const teacherHome = (req, res) => {
+    res.status(200).json(req.user);
+}
+
 
 
 
@@ -95,5 +107,7 @@ module.exports = {
     singleTeacher,
     createTeacher,
     getAllTeacher,
-    updateTeacher
+    updateTeacher,
+    teacherProfile,
+    teacherHome
 }
