@@ -22,8 +22,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended : false }));
 
 
-// file upload for single img
-app.post('/file-upload', upload.single('image'), (req, res) => {
+// // file upload for single img
+// app.post('/file-upload', upload.single('image'), (req, res) => {
+//     res.send('file upload');
+// });
+
+// file upload for multiple img
+app.post('/file-upload', upload.array('image'), (req, res) => {
     res.send('file upload');
 });
 
