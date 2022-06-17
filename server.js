@@ -3,14 +3,29 @@ const app = express();
 const dotenv = require('dotenv').config();
 const colors = require('colors');
 const mongoDBConnection = require('./config/db');
+const path = require('path');
 
 // mongdoDB Connection
 mongoDBConnection();
 
 // multer config
 const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination : (req, file, cb) => {
+        cb(null, './media/users/');
+    },
+    filename : (req, file, cb) => {
+
+        let ext = path.extname(file.originalname);
+        let fileName = Date.now() + Math.round(Math.random() * 100000) + ext;
+        // console.log(fileName);
+        cb(null, fileName);
+    }
+});
+
 const upload = multer({
-    dest : './media/users'
+    storage : storage
 });
 
 
