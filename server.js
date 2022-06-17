@@ -25,7 +25,15 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({
-    storage : storage
+    storage : storage,
+    limits : (1024*1024),
+    fileFilter : (req, file, cb) => {
+        if(file.mimetype == 'image/png' || file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg'){
+            cb(null, true);
+        }else{
+            cb(console.log('type does not match'));
+        }
+    }
 });
 
 
@@ -44,7 +52,9 @@ app.use(express.urlencoded({ extended : false }));
 
 // file upload for multiple img
 app.post('/file-upload', upload.array('image'), (req, res) => {
-    res.send('file upload');
+    
+    console.log(req.files);
+
 });
 
 // student route connection
