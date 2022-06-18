@@ -10,6 +10,7 @@
       integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="style.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
       integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
@@ -53,6 +54,8 @@
                 />
                 <br />
 
+                <!-- pdf  -->
+                <!-- 
                 <label for="cv">
                   <img
                     src="./img/pdf.png"
@@ -63,7 +66,7 @@
                 </label>
                 <br />
 
-                <input id="cv" type="file" style="display: none" name="cv" />
+                <input id="cv" type="file" style="display: none" name="cv" /> -->
 
                 <input type="submit" class="btn btn-info" value="Upload" />
               </form>
@@ -79,14 +82,28 @@
 
       input.onchange = (e) => {
         const files = e.target.files;
-
+        console.log(files[0]);
         let prev = "";
+        let index = 0;
         for (file of files) {
           let url = URL.createObjectURL(file);
-          prev += `<img src="${url}" width="60" >`;
+          prev += `<div class="preview_box">
+                    <img src="${url}" width="60">
+                    <button imgNo="${index}" class="imgdelete"><span class='closeSign'>X</span></button>
+                  </div>`;
+          index++;
         }
         preview.innerHTML = prev;
-        // console.log(file);
+
+        preview.onclick = (e) => {
+          e.preventDefault();
+          // console.log(e.target);
+          if (e.target.classList.contains("closeSign")) {
+            e.target.parentElement.parentElement.remove();
+            let index = e.target.parentElement.getAttribute("imgNo");
+            console.log(index);
+          }
+        };
       };
     </script>
   </body>

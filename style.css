@@ -1,0 +1,31 @@
+#preview {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.preview_box {
+  margin: 10px 0px;
+}
+
+.imgdelete {
+  width: 0px;
+  height: 0px;
+  background: transparent;
+  position: relative;
+  border: none;
+  cursor: pointer;
+}
+
+.imgdelete span {
+  font-size: 15px;
+  font-weight: bold;
+  color: red;
+  position: absolute;
+  top: 44px;
+  left: -40px;
+}
+
+button {
+  margin: 0px;
+  padding: 0px;
+}
